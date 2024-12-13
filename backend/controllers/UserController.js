@@ -1,48 +1,83 @@
-const users = [];
+// Prisma
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const User = prisma.user;
 
-const getUserById = (id) => users.find(user => user.id === id);
+const getUserById = async (id) => {
+    try {
+        const user = await User.findFirst({
+            where: { id: id }, // Certifique-se de que `id` é um número
+        });
 
-const get = (req, res) => users;
+        return user;
+    } catch (error) {
+        return null;
+    }
+};
 
-const getById = (req, res) => {
-    const user = getUserById(req.params.id);
+const get = async (req, res) => await User.findMany();
+
+const getById = async (req, res) => {
+    const user = await getUserById(req.params.id);
     let error = null;
-    if (!user) error = { error: 'User not found' };
+    if (!user) error = { error: "User not found" };
     return [user, error];
 };
 
-const create = (req, res) => {
-    const user = {
-        id: Date.now(),
-        name: req.body.name,
-        email: req.body.email
-    };
-    users.push(user);
-    return user;
+const create = async (req, res) => {
+    try {
+        const user = {
+            name: req.body.name,
+            email: req.body.email,
+            createdAt: new Date(),
+        };
+
+        const createdUser = await User.create({
+            data: user,
+        });
+
+        return [createdUser, null];
+    } catch (error) {
+        return [null, error];
+    }
 };
 
-const update = (req, res) => {
-    const user = getUserById(req.params.id);
+const update = async (req, res) => {
+    const oldUser = await getUserById(req.params.id);
+    let error = null;
+    if (!oldUser) {
+        error = { error: "User not found" };
+        return [null, error];
+    }
+
+    const updatedUser =await User.update({
+        where: {
+            id: oldUser.id,
+        },
+        data: {
+            name: req.body.name,
+            email: req.body.email,
+        },
+    });
+
+    return [updatedUser, error];
+};
+
+const remove = async (req, res) => {
+    const user = await getUserById(req.params.id);
     let error = null;
     if (!user) {
-        error = { error: 'User not found' };
+        error = { error: "User not found" };
         return [null, error];
-    };
-    user.name = req.body.name;
-    user.email = req.body.email;
-    return [user, error];
-};
+    }
 
-const remove = (req, res) => {
-    const index = users.findIndex(user => user.id === Number(req.params.id));
-    let error = null;
-    if (index === -1) {
-        error = { error: 'User not found' }
-        return [null, error];
-    };
-    const deletedUser = users[index];
-    users.splice(index, 1);
-    return [deletedUser, error];
+    await User.delete({
+        where: {
+            id: user.id,
+        },
+    });
+
+    return [user, error];
 };
 
 module.exports = {
@@ -50,5 +85,5 @@ module.exports = {
     getById,
     create,
     update,
-    remove
+    remove,
 };

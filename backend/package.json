@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "nodemon -e js,json ./bin/www"
+        "start": "nodemon -e js,json ./bin/www",
+        "test": "mocha --exit 'test/*.mjs'"
     },
     "type": "commonjs",
     "dependencies": {

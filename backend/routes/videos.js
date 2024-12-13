@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-
 const {
     create,
     get,
     getById,
     remove,
     update,
-} = require("../controllers/UserController");
+} = require("../controllers/VideoController");
 
 router.get("/", async (req, res) => {
     const users = await get(req, res);

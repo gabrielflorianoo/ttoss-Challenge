@@ -3,22 +3,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const User = prisma.user;
 
-const getUserById = async (id) => {
-    try {
-        const user = await User.findFirst({
-            where: { id: id }, // Certifique-se de que `id` é um número
-        });
-
-        return user;
-    } catch (error) {
-        return null;
-    }
-};
-
 const get = async (req, res) => await User.findMany();
 
 const getById = async (req, res) => {
-    const user = await getUserById(req.params.id);
+    const user = await User.findFirst({
+        where: { id: Number(req.params.id) },
+    });
     let error = null;
     if (!user) error = { error: "User not found" };
     return [user, error];
@@ -43,39 +33,35 @@ const create = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    const oldUser = await getUserById(req.params.id);
-    let error = null;
-    if (!oldUser) {
-        error = { error: "User not found" };
-        return [null, error];
-    }
+    const [oldUser, error] = await getById(req);
 
-    const updatedUser =await User.update({
-        where: {
-            id: oldUser.id,
-        },
-        data: {
-            name: req.body.name,
-            email: req.body.email,
-        },
-    });
+
+    let updatedUser = null;
+    if (oldUser) {
+        updatedUser = await User.update({
+            where: {
+                id: oldUser.id,
+            },
+            data: {
+                name: req.body.name,
+                email: req.body.email,
+            },
+        });
+    }
 
     return [updatedUser, error];
 };
 
 const remove = async (req, res) => {
-    const user = await getUserById(req.params.id);
-    let error = null;
-    if (!user) {
-        error = { error: "User not found" };
-        return [null, error];
-    }
+    const [user, error] = await getById(req);
 
-    await User.delete({
-        where: {
-            id: user.id,
-        },
-    });
+    if (user) {
+        await User.delete({
+            where: {
+                id: user.id,
+            },
+        });
+    }
 
     return [user, error];
 };

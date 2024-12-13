@@ -73,14 +73,15 @@ describe("UserController", () => {
         const [user, _] = await create(req);
 
         // Atualiza o usuário
+        let emailUpdated = `jane${Math.random() % 999}@example.com`;
         req.params.id = user.id;
-        req.body = { name: "Jane Doe", email: "jane123123122322@example.com" };
+        req.body = { name: "Jane Doe", email: emailUpdated };
         const [updatedUser, error] = await update(req);
 
         expect(updatedUser).to.be.an("object");
         expect(updatedUser).to.have.property("id", user.id);
         expect(updatedUser).to.have.property("name", "Jane Doe");
-        expect(updatedUser).to.have.property("email", "jane123123122322@example.com");
+        expect(updatedUser).to.have.property("email", emailUpdated);
         expect(error).to.be.null;
     });
 
@@ -99,7 +100,7 @@ describe("UserController", () => {
         // Cria um usuário
         let email = `john${Math.random() % 999}@example.com`;
         req.body = { name: "John Doe", email: email };
-        const user = await create(req);
+        const [user, _] = await create(req);
 
         // Remove o usuário
         req.params.id = user.id;

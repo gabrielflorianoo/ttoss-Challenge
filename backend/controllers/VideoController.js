@@ -3,8 +3,18 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const Video = prisma.video;
 
+/**
+ * Returns the list of videos.
+ * @returns The list of videos.
+ */
 const get = async () => await Video.findMany();
 
+/**
+ * Returns a video by id.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [video, error] - The video object and an error object if any.
+ */
 const getById = async (req, res) => {
     const video = await Video.findUnique({
         where: {
@@ -16,6 +26,12 @@ const getById = async (req, res) => {
     return [video, error];
 };
 
+/**
+ * Creates a new video.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [video, error] - The newly created video object and an error object if any.
+ */
 const create = async (req, res) => {
     try {
         const video = {
@@ -36,6 +52,12 @@ const create = async (req, res) => {
     }
 };
 
+/**
+ * Updates an existing video.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [video, error] - The newly updated video object and an error object if any.
+ */
 const update = async (req, res) => {
     const oldVideo = await Video.findUnique({
         where: {
@@ -64,6 +86,12 @@ const update = async (req, res) => {
     return [updatedVideo, error];
 };
 
+/**
+ * Deletes a video from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [video, error] - The deleted video object and an error object if any.
+ */
 const remove = async (req, res) => {
     const video = await Video.findUnique({
         where: {

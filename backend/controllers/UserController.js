@@ -3,8 +3,19 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const User = prisma.user;
 
-const get = async (req, res) => await User.findMany();
 
+/**
+ * Returns the list of users.
+ * @returns The list of users.
+ */
+const get = async () => await User.findMany();
+
+/**
+ * Returns a user by id.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [user, error] - The user object and an error object if any.
+ */
 const getById = async (req, res) => {
     const user = await User.findFirst({
         where: { id: Number(req.params.id) },
@@ -14,6 +25,12 @@ const getById = async (req, res) => {
     return [user, error];
 };
 
+/**
+ * Creates a new user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [user, error] - The newly created user object and an error object if any.
+ */
 const create = async (req, res) => {
     try {
         const user = {
@@ -32,6 +49,12 @@ const create = async (req, res) => {
     }
 };
 
+/**
+ * Updates an existing user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [user, error] - The newly updated user object and an error object if any.
+ */
 const update = async (req, res) => {
     const [oldUser, error] = await getById(req);
 
@@ -52,6 +75,12 @@ const update = async (req, res) => {
     return [updatedUser, error];
 };
 
+/**
+ * Removes a user from the database.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [user, error] - The deleted user object and an error object if any.
+ */
 const remove = async (req, res) => {
     const [user, error] = await getById(req);
 

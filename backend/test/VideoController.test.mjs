@@ -38,9 +38,18 @@ describe("VideoController", () => {
         expect(foundVideo).to.be.an("object");
         expect(foundVideo).to.have.property("id", video.id);
         expect(foundVideo).to.have.property("title", "Test Video");
-        expect(foundVideo).to.have.property("description", "This is a test video");
-        expect(foundVideo).to.have.property("url", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        expect(foundVideo).to.have.property("thumbnail", "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg");
+        expect(foundVideo).to.have.property(
+            "description",
+            "This is a test video",
+        );
+        expect(foundVideo).to.have.property(
+            "url",
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        );
+        expect(foundVideo).to.have.property(
+            "thumbnail",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+        );
         expect(foundVideo).to.have.property("views", 0);
         expect(error).to.be.null;
     });
@@ -59,9 +68,18 @@ describe("VideoController", () => {
         expect(createdVideo).to.be.an("object");
         expect(createdVideo).to.have.property("id");
         expect(createdVideo).to.have.property("title", "Test Video 2");
-        expect(createdVideo).to.have.property("description", "This is another test video");
-        expect(createdVideo).to.have.property("url", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        expect(createdVideo).to.have.property("thumbnail", "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg");
+        expect(createdVideo).to.have.property(
+            "description",
+            "This is another test video",
+        );
+        expect(createdVideo).to.have.property(
+            "url",
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        );
+        expect(createdVideo).to.have.property(
+            "thumbnail",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+        );
         expect(createdVideo).to.have.property("views", 0);
     });
 
@@ -90,9 +108,18 @@ describe("VideoController", () => {
         expect(updatedVideo).to.be.an("object");
         expect(updatedVideo).to.have.property("id", video.id);
         expect(updatedVideo).to.have.property("title", "Test Video 3 Updated");
-        expect(updatedVideo).to.have.property("description", "This is another test video updated");
-        expect(updatedVideo).to.have.property("url", "https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        expect(updatedVideo).to.have.property("thumbnail", "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg");
+        expect(updatedVideo).to.have.property(
+            "description",
+            "This is another test video updated",
+        );
+        expect(updatedVideo).to.have.property(
+            "url",
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        );
+        expect(updatedVideo).to.have.property(
+            "thumbnail",
+            "https://i.ytimg.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+        );
         expect(updatedVideo).to.have.property("views", 0);
     });
 
@@ -105,7 +132,7 @@ describe("VideoController", () => {
             views: 0,
         };
 
-        const [video , _] = await create(req);
+        const [video, _] = await create(req);
 
         req.params.id = video.id;
 

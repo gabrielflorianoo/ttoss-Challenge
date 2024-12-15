@@ -17,7 +17,6 @@ describe("UserController", () => {
     });
 
     it("should return all users", async () => {
-
         // Adiciona usuários e verifica novamente
         req.body = { name: "John Doe", email: "john@example.com" };
         await create(req);

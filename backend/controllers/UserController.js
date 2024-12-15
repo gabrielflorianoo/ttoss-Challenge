@@ -3,7 +3,6 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const User = prisma.user;
 
-
 /**
  * Returns the list of users.
  * @returns The list of users.
@@ -57,7 +56,6 @@ const create = async (req, res) => {
  */
 const update = async (req, res) => {
     const [oldUser, error] = await getById(req);
-
 
     let updatedUser = null;
     if (oldUser) {

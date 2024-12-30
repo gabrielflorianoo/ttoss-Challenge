@@ -26,11 +26,14 @@ const Navbar = () => {
 
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
-                    <Link to="/" className="navbar-item">
-                        Home
-                    </Link>
                     <Link to="/about" className="navbar-item">
                         About
+                    </Link>
+                    <Link to="/vote" className="navbar-item">
+                        Vote
+                    </Link>
+                    <Link to="/add-video" className="navbar-item">
+                        Add Video
                     </Link>
                 </div>
 

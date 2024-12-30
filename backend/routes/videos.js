@@ -6,6 +6,8 @@ const {
     getById,
     remove,
     update,
+    getTwoRandom,
+    vote,
 } = require("../controllers/VideoController");
 
 router.get("/", async (req, res) => {
@@ -13,28 +15,39 @@ router.get("/", async (req, res) => {
     res.status(200).json(users);
 });
 
+router.get("/random", async (req, res) => {
+    const videos = await getTwoRandom(req, res);
+    res.status(200).json(videos);
+});
+
 router.post("/", async (req, res) => {
-    const [user, error] = await create(req, res);
+    const [video, error] = await create(req, res);
     if (error) return res.status(404).json(error);
-    res.status(200).json(user);
+    res.status(200).json(video);
 });
 
 router.get("/:id", async (req, res) => {
-    const [user, error] = await getById(req, res);
+    const [video, error] = await getById(req, res);
     if (error) return res.status(404).json(error);
-    res.status(200).json(user);
+    res.status(200).json(video);
 });
 
 router.put("/:id", async (req, res) => {
-    const [user, error] = await update(req, res);
+    const [video, error] = await update(req, res);
     if (error) return res.status(404).json(error);
-    res.status(200).json(user);
+    res.status(200).json(video);
+});
+
+router.put("/vote/:id", async (req, res) => {
+    const [video, error] = await vote(req, res);
+    if (error) return res.status(404).json(error);
+    res.status(200).json(video);
 });
 
 router.delete("/:id", async (req, res) => {
-    const [user, error] = await remove(req, res);
+    const [video, error] = await remove(req, res);
     if (error) return res.status(404).json(error);
-    res.status(200).json(user);
+    res.status(200).json(video);
 });
 
 module.exports = router;

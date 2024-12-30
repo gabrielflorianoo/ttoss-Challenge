@@ -113,10 +113,52 @@ const remove = async (req, res) => {
     return [video, error];
 };
 
+/**
+ * Retrieves two random videos from the database.
+ * @returns {Array} - An array containing two randomly selected video objects.
+ */
+const getTwoRandom = async () => {
+    const videos = await Video.findMany();
+    const randomVideos = videos.sort(() => 0.5 - Math.random()).slice(0, 2);
+    return randomVideos;
+};
+
+/**
+ * Increments the vote count of a video.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [video, error] - The video object with the updated vote count and an error object if any.
+ */
+const vote = async (req, res) => {
+    const video = await Video.findUnique({
+        where: {
+            id: req.params.id,
+        },
+    });
+    let error = null;
+    if (!video) {
+        error = { error: "Video not found" };
+        return [null, error];
+    }
+
+    await Video.update({
+        where: {
+            id: video.id,
+        },
+        data: {
+            votes: video.votes + 1,
+        },
+    });
+
+    return [video, error];
+}
+
 module.exports = {
     get,
     getById,
     create,
     update,
     remove,
+    getTwoRandom,
+    vote,
 };

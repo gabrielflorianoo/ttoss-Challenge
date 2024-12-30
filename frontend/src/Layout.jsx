@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import VideoList from './components/VideoList';
+import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { getAllVideos } from './api/Server';
 
-function App() {
+function Layout() {
     const [videos, setVideos] = useState([]);
 
     useEffect(() => {
@@ -15,10 +15,18 @@ function App() {
     }, []);
 
     return (
-        <>
+        <section className="container-fluid" style={{ 
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gridTemplateRows: '0fr 1fr',
+            gap: '1rem',
+         }}>
             <Navbar />
-        </>
+            <div className="content">
+                <Outlet />
+            </div>
+        </section>
     );
 }
 
-export default App;
+export default Layout;

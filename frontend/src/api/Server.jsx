@@ -14,4 +14,19 @@ const getAllVideos = async () => {
     return response.data;
 };
 
-export { createVideo, getAllVideos };
+const getRandomVideos = async () => {
+    const response = await api.get("/videos/random");
+    return response.data;
+};
+
+const handleVote = async (videoId) => {
+    try {
+        const response = await api.put(`/videos/vote/${videoId}`);
+        alert('Vote submitted successfully!');
+        return response.data;
+    } catch (error) {
+        console.error('There was an error submitting your vote!', error);
+    }
+};
+
+export { createVideo, getAllVideos, getRandomVideos, handleVote };

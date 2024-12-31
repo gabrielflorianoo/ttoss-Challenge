@@ -38,10 +38,10 @@ router.put("/:id", async (req, res) => {
     res.status(200).json(video);
 });
 
-router.put("/vote/:id", async (req, res) => {
-    const [video, error] = await vote(req, res);
+router.post("/vote", async (req, res) => {
+    const [updatedVideos, error] = await vote(req, res);
     if (error) return res.status(404).json(error);
-    res.status(200).json(video);
+    res.status(200).json(updatedVideos);
 });
 
 router.delete("/:id", async (req, res) => {

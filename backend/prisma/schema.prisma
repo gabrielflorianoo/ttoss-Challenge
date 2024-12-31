@@ -1,27 +1,28 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  createdAt DateTime @default(now())
+    id        Int      @id @default(autoincrement())
+    name      String
+    email     String   @unique
+    createdAt DateTime @default(now())
 }
 
 model Video {
-  id            String   @id @default(cuid())
-  title         String
-  description   String 
-  url           String
-  thumbnail     String
-  views         Int      @default(0)
-  votes         Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
+    id          String   @id @default(cuid())
+    title       String
+    description String
+    url         String
+    thumbnail   String
+    views       Int      @default(0)
+    votes       Int      @default(0)
+    eloRating   Float    @default(1200)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
 }

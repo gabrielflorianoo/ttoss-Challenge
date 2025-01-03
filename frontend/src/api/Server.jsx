@@ -8,12 +8,10 @@ const createVideo = async (video) => {
     const response = await api.post('/videos', video);
     return response.data;
 };
-
 const getAllVideos = async () => {
     const response = await api.get('/videos');
     return response.data;
 };
-
 const getRandomVideos = async () => {
     const seenIds = new Set(); // to track seen video IDs
     let response;
@@ -24,7 +22,6 @@ const getRandomVideos = async () => {
     } while (response.data.length === 0);
     return response.data;
 };
-
 const vote = async (winnerId, loserId) => {
     try {
         await api.post(`/videos/vote`, {
@@ -39,4 +36,24 @@ const vote = async (winnerId, loserId) => {
     }
 };
 
-export { createVideo, getAllVideos, getRandomVideos, vote };
+const login = async (username, password) => {
+    try {
+        const response = await api.post('/login', { username, password });
+        return response.data;
+    } catch (error) {
+        console.error('There was an error logging in!', error);
+        return error;
+    }
+};
+
+const signup = async (username, password, email) => {
+    try {
+        const response = await api.post('/signup', { username, password, email });
+        return response.data;
+    } catch (error) {
+        console.error('There was an error signing up!', error);
+        return error;
+    }
+}
+
+export { createVideo, getAllVideos, getRandomVideos, vote, login, signup };

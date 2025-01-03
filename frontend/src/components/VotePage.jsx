@@ -18,6 +18,12 @@ const VotePage = () => {
     }, []);
 
     const handleVote = async (winnerId, loserId) => {
+        // Check if the user is logged in
+        if (!localStorage.getItem('user')) {
+            alert('You need to be logged in to vote.');
+            return;
+        }
+
         const error = await vote(winnerId, loserId);
         if (!error) {
             getRandomVideos()

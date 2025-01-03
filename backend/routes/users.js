@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
     create,
+    login,
     get,
     getById,
     remove,
@@ -16,6 +17,12 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const [user, error] = await create(req, res);
+    if (error) return res.status(404).json(error);
+    res.status(200).json(user);
+});
+
+router.post("/login", async (req, res) => {
+    const [user, error] = await login(req, res);
     if (error) return res.status(404).json(error);
     res.status(200).json(user);
 });

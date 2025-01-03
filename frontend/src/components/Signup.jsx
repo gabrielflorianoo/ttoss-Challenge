@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { signup } from '../api/Server';
 
 const Signup = () => {
+    const [clicked, setClicked] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -17,15 +19,24 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log(formData);
+
+        signup(formData.name, formData.password, formData.email)
+            .then((response) => {
+                // Put the user in storage
+                localStorage.setItem('user', JSON.stringify(response));
+                window.location.href = '/';
+            })
+            .catch((error) => {
+                console.error('There was an error signing up!', error);
+                alert('Signup failed!');
+            });
     };
 
     return (
         <div className="container">
             <div className="columns is-centered">
                 <div className="column is-half">
-                <h2 className="title is-4">Sign Up</h2>
+                    <h2 className="title is-4">Sign Up</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="field">
                             <label className="label">Name</label>
@@ -77,8 +88,14 @@ const Signup = () => {
                                 <button
                                     className="button is-primary"
                                     type="submit"
+                                    disabled={formData.name === '' || formData.email === '' || formData.password === ''}
+                                    onClick={() => setClicked(true)}
                                 >
-                                    Sign Up
+                                    {clicked ? (
+                                        'Signing Up...'
+                                    ) : (
+                                        'Sign Up'
+                                    )}
                                 </button>
                             </div>
                         </div>

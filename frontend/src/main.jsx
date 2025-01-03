@@ -14,7 +14,6 @@ createRoot(document.getElementById('root')).render(
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
-                    <Route path="about" element={<h1>TODO...</h1>} />
                     <Route path="vote" element={<VotePage />} />
                     <Route path="add-video" element={<VideoForm />} />
                     <Route path='login' element={<Login />} />

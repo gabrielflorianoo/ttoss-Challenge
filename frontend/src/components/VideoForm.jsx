@@ -21,14 +21,18 @@ const VideoForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Aqui você pode enviar os dados para o backend ou API
-        console.log('Video Data:', formData);
+        if (!localStorage.getItem('user')) {
+            alert('You need to be logged in to create a video');
+            return;
+        }
+
         createVideo(formData)
             .then((response) => {
-                console.log('Video criado com sucesso:', response);
+                // Redirecionar para a inicial
+                window.location.href = `/`;
             })
             .catch((error) => {
-                console.error('Erro ao criar o video:', error);
+                console.error('Error creating video:', error);
             });
 
         // Limpar o formulário após o envio

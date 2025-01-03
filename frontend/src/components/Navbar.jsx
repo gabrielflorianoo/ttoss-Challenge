@@ -1,54 +1,62 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            setIsLogged(true);
+        }
+    });
+
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        setIsLogged(false);
+    };
+
     return (
         <nav
             className="navbar is-primary"
             role="navigation"
             aria-label="main navigation"
         >
-            <div className="navbar-brand">
-                <Link to="/" className="navbar-item">
-                    <img src="/logo.png" alt="Logo" />
-                </Link>
-                <button
-                    className="navbar-burger"
-                    aria-label="menu"
-                    aria-expanded="false"
-                    data-target="navbarBasicExample"
-                >
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </button>
-            </div>
-
             <div id="navbarBasicExample" className="navbar-menu">
                 <div className="navbar-start">
-                    <Link to="/about" className="navbar-item">
-                        About
+                    <Link to="/" className="navbar-item">
+                        Ranking de Videos
                     </Link>
                     <Link to="/vote" className="navbar-item">
-                        Vote
+                        Votar
                     </Link>
                     <Link to="/add-video" className="navbar-item">
-                        Add Video
+                        Adicionar Video
                     </Link>
                 </div>
 
-                <div className="navbar-end">
-                    <div className="navbar-item">
-                        <div className="buttons">
-                            <Link to="/signup" className="button is-light">
-                                Sign up
-                            </Link>
-                            <Link to="/login" className="button is-primary">
-                                Log in
-                            </Link>
+                {isLogged ? (
+                    <div className="navbar-end">
+                        <div className="navbar-item">
+                            <div className="buttons">
+                                <button className="button is-danger" onClick={handleLogout}>Logout</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="navbar-end">
+                        <div className="navbar-item">
+                            <div className="buttons">
+                                <Link to="/signup" className="button is-light">
+                                    Sign up
+                                </Link>
+                                <Link to="/login" className="button is-primary">
+                                    Log in
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </nav>
     );

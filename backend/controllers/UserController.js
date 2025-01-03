@@ -35,6 +35,7 @@ const create = async (req, res) => {
         const user = {
             name: req.body.name,
             email: req.body.email,
+            password: req.body.password,
             createdAt: new Date(),
         };
 
@@ -46,6 +47,38 @@ const create = async (req, res) => {
     } catch (error) {
         return [null, error];
     }
+};
+
+/**
+ * Logs in a user.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Array} [user, error] - The logged in user object and an error object if any.
+ */
+const login = async (req, res) => {
+
+    const email = req.body.email;
+    // Check if email is not trying to inject code
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return [null, { error: "Invalid email format" }];
+    }
+
+    const password = req.body.password;
+    // Check if password is not trying to inject code with white spaces
+    if (password.includes(" ")) {
+        return [null, { error: "Invalid password" }];
+    }
+
+    const user = await User.findFirst({
+        where: {
+            email: email,
+            password: password,
+        },
+    });
+    let error = null;
+    if (!user) error = { error: "User not found" };
+    return [user, error];
 };
 
 /**
@@ -97,6 +130,7 @@ module.exports = {
     get,
     getById,
     create,
+    login,
     update,
     remove,
 };
